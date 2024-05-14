@@ -12,7 +12,8 @@ class Animal:
     def area_a(self, feed = False) -> float:
         if feed:
             x = (self.height*0.02) * (self.width*0.02)
-            x -= self.height * self.width
+            y = self.height * self.width
+            x = y - x
             return x
         return self.height * self.width
 
@@ -44,25 +45,33 @@ class Zookeeper:
             return 0
         else:
             if animal.preferred_habitat == fence.habitat:
-                fence.animal.append(animal)
+                fence.animals.append(animal)
                 print("Animale aggiunto")
             else:
                 print("Habitat non compatibile con l'animale")
 
-    def remove_animal(animal: Animal, fence: Fence) -> None:
+    def remove_animal(self, animal: Animal, fence: Fence) -> None:
         if animal in fence:
             del fence.animals[animal]
         else:
             print("ANIMAL NOT IN THIS FENCE")
 
-    def feed(animal: Animal, fence: Fence) -> None:
+    def feed(self, animal: Animal, fence: Fence) -> None:
+#        print(f"fence{fence.free_area()}-------animal{animal.area_a(feed=True)}")
         if fence.free_area() >= animal.area_a(feed=True):
-            animal.width *= 0.02
-            animal.height *= 0.02
-            animal.health *= 0.01
+            x = animal.width * 0.02
+            y = animal.height * 0.02
+            z = animal.health * 0.01
+            animal.width += x
+            animal.height += y
+            animal.health += z
+        else:
+            
+            print("NOT ENOUGHT SPACE TO FEED THE ANIMAL")
 
-    def clean(fence: Fence) -> float:
+    def clean(self, fence: Fence) -> float:
         if fence.free_area() == 0:
+            
             return fence.area
         x = fence.area - fence.free_area()
         return x / fence.free_area()
@@ -71,7 +80,7 @@ class Zookeeper:
 
 class Zoo:
     
-    def __inti__(self, name: str, address: str) -> None:
+    def __init__(self, name: str, address: str) -> None:
         """inizializzo lo zoo
 
         Args:
@@ -99,4 +108,26 @@ class Zoo:
 
 
 
-lion = Animal("lion", "felino", 7, 3.45, 1.38, "savana")
+# Creiamo alcuni animali
+lion = Animal("Leo", "Lion", 5, 2.5, 1.5, "savannah")
+tiger = Animal("Tigger", "Tiger", 4, 2.2, 1.4, "jungle")
+elephant = Animal("Dumbo", "Elephant", 10, 3.5, 2.5, "savannah")
+
+# Creiamo un recinto
+savannah_fence = Fence(25, 13, "savannah")
+
+# Creiamo uno zookeeper
+zookeeper = Zookeeper("John", "Doe", 123)
+
+# Aggiungiamo animali al recinto
+Zookeeper.add_animal(lion, savannah_fence)
+Zookeeper.add_animal(tiger, savannah_fence)
+Zookeeper.add_animal(elephant, savannah_fence)
+
+# Descriviamo lo zoo
+zoo = Zoo("My Zoo", "123 Main Street")
+zoo.fences.append(savannah_fence)
+zoo.zoo_keepers.append(zookeeper)
+print(zoo.zoo_keepers[0].clean(zoo.fences[0]))
+zoo.describe_zoo()
+
