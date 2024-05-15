@@ -1,7 +1,7 @@
 from src.Zoo import Animal, Fence, Zookeeper, Zoo
 
 # Creiamo alcuni animali
-lion = Animal("Leo", "Lion", 5, 2.5, 1.5, "savannah")
+lion: Animal = Animal("Leo", "Lion", 5, 2.5, 1.5, "savannah")
 tiger = Animal("Tigger", "Tiger", 4, 2.2, 1.4, "jungle")
 elephant = Animal("Dumbo", "Elephant", 10, 3.5, 2.5, "savannah")
 

@@ -4,12 +4,13 @@ class Animal:
         """inizializzazione classe animal
 
         Args:
-            name (_type_): nome dell'animale
-            species (_type_): specie dell'animale
-            age (_type_): età dell'animale
-            width (_type_): larghezza dell'animale
-            height (_type_): altezza dell'animale
-            habitat (_type_): habitat dell'animale
+            name (str): nome dell'animale
+            species (str): specie dell'animale
+            age (int): età dell'animale
+            width (float): larghezza dell'animale
+            height (float): altezza dell'animale
+            habitat (str): habitat dell'animale
+            fence (Fence): indica il recinto in cui si trova l'animale
         """
         self.name: str = name
         self.species: str = species
@@ -17,6 +18,7 @@ class Animal:
         self.height: float = height
         self.width: float = width
         self.preferred_habitat: str = habitat
+        self.fence = None
         self.health: float = round(100 * (1 / age))
 
     def area_a(self, feed = False) -> float:
@@ -29,9 +31,9 @@ class Animal:
             float: ritorna le dimensioni dell'animale
         """
         if feed:
-            x = (self.height*0.02) * (self.width*0.02)
-            y = self.height * self.width
-            x = y - x
+            x: float = (self.height*0.02) * (self.width*0.02)
+            y: float = self.height * self.width
+            x: float = y - x
             return x
         return self.height * self.width
 
@@ -57,7 +59,7 @@ class Fence:
         Returns:
             float: ritorna lo spazio libero nel recinto
         """
-        area = 0
+        area: float = 0
         for x in self.animals:
             area += x.area_a()
         return self.area - area
@@ -92,6 +94,7 @@ class Zookeeper:
         else:
             if animal.preferred_habitat == fence.habitat:
                 fence.animals.append(animal)
+                animal.fence = fence
                 print("Animale aggiunto")
             else:
                 print("Habitat non compatibile con l'animale")
@@ -108,7 +111,7 @@ class Zookeeper:
         else:
             print("ANIMAL NOT IN THIS FENCE")
 
-    def feed(self, animal: Animal, fence: Fence) -> None:
+    def feed(self, animal: Animal) -> None:
         """metodo per nutrire l'animale
 
         Args:
@@ -118,10 +121,10 @@ class Zookeeper:
         Returns:
             None
         """
-        if fence.free_area() >= animal.area_a(feed=True):
-            x = animal.width * 0.02
-            y = animal.height * 0.02
-            z = animal.health * 0.01
+        if animal.fence.free_area() >= animal.area_a(feed=True):
+            x: float = animal.width * 0.02
+            y: float = animal.height * 0.02
+            z: float = animal.health * 0.01
             animal.width += x
             animal.height += y
             animal.health += z
@@ -163,12 +166,13 @@ class Zoo:
         """
         Visualizza tutto lo zoo stampando prima la lista dei guardiani e poi la lista dei recinti con ogni animale all'interno
         """
+        print(self.name)
         print("Guardians: \n")
         for x in self.zoo_keepers:
             print(f"Name: {x.name}\tSurname: {x.surname}\t ID: {x.id}")
         print("\n Fences \n")
         for x in self.fences:
-            print(f"Fence: \n\thabitat: {x.habitat}\n\ttemperature: {x.temperature}\n\tarea: {x.area}\n with this animals:")
+            print(f"Fence: \n\thabitat: {x.habitat}\n\ttemperature: {x.temperature}\n\tarea: {x.area}\n with this animals:\n")
             for y in x.animals:
-                print(f"{y.name}\t{y.species}\t{y.age}")
+                print(f"\t{y.name}\t{y.species}\t{y.age}")
             print("#" * 30)
