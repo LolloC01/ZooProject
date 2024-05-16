@@ -166,13 +166,15 @@ class Zoo:
         """
         Visualizza tutto lo zoo stampando prima la lista dei guardiani e poi la lista dei recinti con ogni animale all'interno
         """
-        print(self.name)
+        print(f"Name={self.name} address={self.address}\n")
         print("Guardians: \n")
         for x in self.zoo_keepers:
-            print(f"Name: {x.name}\tSurname: {x.surname}\t ID: {x.id}")
-        print("\n Fences \n")
+            print(f"ZooKeeper(name={x.name}, surname={x.surname}, id={x.id})\n")
+        print("Fences: \n")
         for x in self.fences:
-            print(f"Fence: \n\thabitat: {x.habitat}\n\ttemperature: {x.temperature}\n\tarea: {x.area}\n with this animals:\n")
+            print(f"Fence(area={x.area}, temperature={x.temperature}, habitat={x.habitat})\n")
+            print("with animals:\n")
             for y in x.animals:
-                print(f"\t{y.name}\t{y.species}\t{y.age}")
+                print(f"Animal(name={y.name}, species={y.species}, age={y.age})\n")
             print("#" * 30)
+            print("")
