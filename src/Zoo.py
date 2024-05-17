@@ -89,15 +89,15 @@ class Zookeeper:
             None
         """
         if animal.area_a() > fence.free_area():
-            print("NOT ENOUGHT SPACE IN THIS FENCE")   #gestire eccezione
+            #print("NOT ENOUGHT SPACE IN THIS FENCE")   #gestire eccezione
             return 0
         else:
             if animal.preferred_habitat == fence.habitat:
                 fence.animals.append(animal)
                 animal.fence = fence
-                print("Animale aggiunto")
+                #print("Animale aggiunto")
             else:
-                print("Habitat non compatibile con l'animale")
+                pass#print("Habitat non compatibile con l'animale")
 
     def remove_animal(self, animal: Animal, fence: Fence) -> None:
         """rimuove l'animale dal recinto
@@ -109,7 +109,8 @@ class Zookeeper:
         if animal in fence.animals:
             fence.animals.remove(animal)
         else:
-            print("ANIMAL NOT IN THIS FENCE")
+            pass
+            #print("ANIMAL NOT IN THIS FENCE")
 
     def feed(self, animal: Animal) -> None:
         """metodo per nutrire l'animale
@@ -129,7 +130,8 @@ class Zookeeper:
             animal.height += y
             animal.health += z
         else:
-            print("NOT ENOUGHT SPACE TO FEED THE ANIMAL")
+            pass
+            #print("NOT ENOUGHT SPACE TO FEED THE ANIMAL")
 
     def clean(self, fence: Fence) -> float:
         """metodo per pulire il recinto
@@ -166,7 +168,7 @@ class Zoo:
         """
         Visualizza tutto lo zoo stampando prima la lista dei guardiani e poi la lista dei recinti con ogni animale all'interno
         """
-        print(f"Name={self.name} address={self.address}\n")
+        #print(f"Name={self.name} address={self.address}\n")
         print("Guardians: \n")
         for x in self.zoo_keepers:
             print(f"ZooKeeper(name={x.name}, surname={x.surname}, id={x.id})\n")
