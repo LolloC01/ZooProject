@@ -1,6 +1,6 @@
 class Animal:
 
-    def __init__(self, name, species, age, width, height, habitat) -> None:
+    def __init__(self, name, species, age, width, height, preferred_habitat) -> None:
         """inizializzazione classe animal
 
         Args:
@@ -17,7 +17,7 @@ class Animal:
         self.age: int = age
         self.height: float = height
         self.width: float = width
-        self.preferred_habitat: str = habitat
+        self.preferred_habitat: str = preferred_habitat
         self.fence = None
         self.health: float = round(100 * (1 / age))
 
@@ -31,9 +31,9 @@ class Animal:
             float: ritorna le dimensioni dell'animale
         """
         if feed:
-            x: float = (self.height*0.02) * (self.width*0.02)
-            y: float = self.height * self.width
-            x: float = y - x
+            x: float = (self.height+self.height*0.02)*(self.width+self.width*0.02)        # (self.height*0.02) * (self.width*0.02)   
+            #y: float = self.height * self.width
+            #x: float = y - x
             return x
         return self.height * self.width
 
@@ -64,7 +64,7 @@ class Fence:
             area += x.area_a()
         return self.area - area
 
-class Zookeeper:
+class ZooKeeper:
 
     def __init__(self, name, surname, id) -> None:
         """Inizializza la classe zookeeper (guardiano)
@@ -78,7 +78,7 @@ class Zookeeper:
         self.surname: str = surname
         self.id: int = id
 
-    def add_animal(animal: Animal, fence: Fence) -> None:
+    def add_animal(self, animal: Animal, fence: Fence) -> None:
         """Aggiunge un animale al recinto
 
         Args:
@@ -108,6 +108,7 @@ class Zookeeper:
         """
         if animal in fence.animals:
             fence.animals.remove(animal)
+            animal.fence = None
         else:
             pass
             #print("ANIMAL NOT IN THIS FENCE")
@@ -122,16 +123,17 @@ class Zookeeper:
         Returns:
             None
         """
-        if animal.fence.free_area() >= animal.area_a(feed=True):
-            x: float = animal.width * 0.02
-            y: float = animal.height * 0.02
-            z: float = animal.health * 0.01
-            animal.width += x
-            animal.height += y
-            animal.health += z
-        else:
-            pass
-            #print("NOT ENOUGHT SPACE TO FEED THE ANIMAL")
+        #if animal.fence.free_area() >= animal.area_a(feed=True):
+        x: float = animal.width * 0.02
+        y: float = animal.height * 0.02
+        z: float = animal.health * 0.01
+        animal.width = animal.width + x
+        animal.height = animal.height + y
+        animal.health = animal.health + z
+        if animal.area_a() > animal.fence.free_area():
+            print("NOT ENOUGHT SPACE TO FEED THE ANIMAL")
+        #else:
+            #pass
 
     def clean(self, fence: Fence) -> float:
         """metodo per pulire il recinto
@@ -162,7 +164,7 @@ class Zoo:
         self.name: str = name
         self.address: str = address
         self.fences: list[Fence] = []
-        self.zoo_keepers: list[Zookeeper] = []
+        self.zoo_keepers: list[ZooKeeper] = []
 
     def describe_zoo(self) -> None:
         """
